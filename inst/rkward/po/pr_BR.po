@@ -1,0 +1,62 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: rk.ddi.import 0.0.1\n"
+"Report-Msgid-Bugs-To: https://mail.kde.org/mailman/listinfo/kde-i18n-doc\n"
+"POT-Creation-Date: 2026-02-16 21:40-0600\n"
+"PO-Revision-Date: 2026-02-16 21:45-0600\n"
+"Last-Translator: Alfonso Cano Robles <alfonso.cano@correo.buap.mx>\n"
+"Language-Team: Portuguese (Brazil) <kde-i18n-doc@kde.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: RKWard Plugin Generator\n"
+
+msgid "Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file."
+msgstr "Aplica rótulos de variáveis e níveis de fator (respostas) a um data.frame existente lendo um arquivo DDI/XML."
+
+msgid "Import DDI Metadata"
+msgstr "Importar Metadados DDI"
+
+msgid "Data Frame to process (Raw Data)"
+msgstr "Data Frame para processar (Dados Brutos)"
+
+msgid "Metadata File (XML / DDI)"
+msgstr "Arquivo de Metadados (XML / DDI)"
+
+msgid "Value conversion mode"
+msgstr "Modo de conversão de valores"
+
+msgid "Factors (Recommended)"
+msgstr "Fatores (Recomendado)"
+
+msgid "Text (Character)"
+msgstr "Texto (Caractere)"
+
+msgid "Save result as"
+msgstr "Salvar resultado como"
+
+msgid "DDI Import Results"
+msgstr "Resultados da Importação DDI"
+
+msgid "Created object:"
+msgstr "Objeto criado:"
+
+msgid "This plugin allows you to import metadata (variable labels and value labels) from a DDI-compliant XML file \n    and apply them to an existing R data frame. This is commonly used for census and survey data from institutions like INEGI or DANE."
+msgstr "Este plugin permite importar metadados (rótulos de variáveis e rótulos de valores) de um arquivo XML compatível com DDI \n    e aplicá-los a um data frame R existente. Isso é comumente usado para dados de censos e pesquisas de instituições como INEGI ou DANE."
+
+msgid "1. Select the <b>Data Frame</b> containing the raw data (usually with numeric codes).\n2. Select the <b>XML/DDI file</b> that contains the data dictionary.\n3. Choose whether to convert the coded columns into <b>Factors</b> (with text labels) or plain text.\n4. Specify the name for the new object."
+msgstr "1. Selecione o <b>Data Frame</b> contendo os dados brutos (geralmente com códigos numéricos).\n2. Selecione o <b>arquivo XML/DDI</b> que contém o dicionário de dados.\n3. Escolha se deseja converter as colunas codificadas em <b>Fatores</b> (com rótulos de texto) ou texto simples.\n4. Especifique o nome para o novo objeto."
+
+msgid "The R object (data.frame) holding the raw data."
+msgstr "O objeto R (data.frame) que contém os dados brutos."
+
+msgid "Path to the .xml file containing the DDI metadata structure."
+msgstr "Caminho para o arquivo .xml contendo a estrutura de metadados DDI."
+
+msgid "If 'Factors', numeric codes are replaced by their labels as factor levels. If 'Text', they are converted to character strings."
+msgstr "Se 'Fatores', os códigos numéricos são substituídos por seus rótulos como níveis de fator. Se 'Texto', eles são convertidos para strings de caracteres."
+
+msgid "The name of the new R object to be created in the Global Environment."
+msgstr "O nome do novo objeto R a ser criado no Ambiente Global."

@@ -1,0 +1,36 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="ImportDDIMetadata.js" />
+	<help file="ImportDDIMetadata.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Import DDI Metadata">
+		<row id="row_vDFRDMFXML">
+			<varselector id="var_sel_source" />
+			<column id="clm_vDFRDMFXML">
+				<varslot id="inp_dataframe" label="Data Frame to process (Raw Data)" source="var_sel_source" classes="data.frame tibble tbl_df" required="true" />
+				<browser label="Metadata File (XML / DDI)" type="file" id="inp_xml_file" filter="*.xml *.ddi" />
+				<radio id="rad_mode" label="Value conversion mode">
+					<option label="Factors (Recommended)" value="factor" checked="true" />
+					<option label="Text (Character)" value="character" />
+				</radio>
+				<stretch />
+				<saveobject label="Save result as" checkable="true" checked="true" initial="tagged_data" id="save_result" />
+			</column>
+		</row>
+	</dialog>
+</document>

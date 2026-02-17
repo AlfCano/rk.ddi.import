@@ -1,0 +1,50 @@
+<!DOCTYPE rkhelp >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<title>
+		Import DDI Metadata
+	</title>
+	<summary>
+		This plugin allows you to import metadata (variable labels and value labels) from a DDI-compliant XML file
+	    and apply them to an existing R data frame. This is commonly used for census and survey data from institutions like INEGI or DANE.
+	</summary>
+	<usage>
+		1. Select the &lt;b&gt;Data Frame&lt;/b&gt; containing the raw data (usually with numeric codes).
+	2. Select the &lt;b&gt;XML/DDI file&lt;/b&gt; that contains the data dictionary.
+	3. Choose whether to convert the coded columns into &lt;b&gt;Factors&lt;/b&gt; (with text labels) or plain text.
+	4. Specify the name for the new object.
+	</usage>
+	<!--
+		<section id="sct_EDITORDE" title="EDIT OR DELETE ME">
+			EDIT OR DELETE ME
+		</section>
+	-->
+	<settings>
+		<setting id="inp_dataframe">
+			The R object (data.frame) holding the raw data.
+		</setting>
+		<setting id="inp_xml_file">
+			Path to the .xml file containing the DDI metadata structure.
+		</setting>
+		<setting id="rad_mode">
+			If 'Factors', numeric codes are replaced by their labels as factor levels. If 'Text', they are converted to character strings.
+		</setting>
+		<setting id="save_result">
+			The name of the new R object to be created in the Global Environment.
+		</setting>
+	</settings>
+	<!--
+		<related>
+			<ul>
+				<li>
+					<link href="rkward://rhelp/..." />
+				</li>
+			</ul>
+		</related>
+	-->
+	<technical>
+	</technical>
+</document>

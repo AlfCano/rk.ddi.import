@@ -1,0 +1,89 @@
+<!DOCTYPE
+	rkpluginmap
+>
+<document
+	base_prefix=""
+	namespace="ImportDDIMetadata"
+	id="ImportDDIMetadata_rkward"
+	po_id="ImportDDIMetadata_rkward"
+	priority="medium"
+>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<dependencies
+		rkward_min_version="0.7.5"
+	>
+		<package
+			name="xml2"
+		/>
+		<package
+			name="dplyr"
+		/>
+		<package
+			name="purrr"
+		/>
+		<package
+			name="tibble"
+		/>
+	</dependencies>
+	<about
+		name="rk.ddi.import"
+		shortinfo="Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file."
+		longinfo="Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file."
+		version="0.0.1"
+		releasedate="2026-02-17"
+		url="https://github.com/AlfCano/rk.ddi.import"
+		license="GPL (&gt;= 3)"
+	>
+		<author
+			given="Alfonso"
+			family="Cano"
+			email="alfonso.cano@correo.buap.mx"
+			role="aut, cre"
+		/>
+	</about>
+	<require
+		map="rkward::menu"
+	/>
+	<require
+		map="rkward::embedded"
+	/>
+	<components>
+		<component
+			id="cmp_ImportDDIMtdtImprtDDIMtdt"
+			label="Import DDI Metadata"
+			type="standard"
+			file="plugins/ImportDDIMetadata.xml"
+		>
+		</component>
+	</components>
+	<hierarchy>
+		<menu
+			id="data"
+			label="Data"
+		>
+			<menu
+				id="NamesandLabels"
+				label="Names and Labels"
+			>
+				<entry
+					component="cmp_ImportDDIMtdtImprtDDIMtdt"
+				/>
+			</menu>
+		</menu>
+	</hierarchy>
+	<!--
+		<context
+			id="x11"
+		>
+		</context>
+	-->
+	<!--
+		<context
+			id="import"
+		>
+		</context>
+	-->
+</document>

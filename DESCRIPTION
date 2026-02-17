@@ -1,0 +1,19 @@
+Package: rk.ddi.import
+Type: Package
+Title: Applies variable labels and factor levels (responses) to an
+        existing data.frame by reading a DDI/XML file.
+Version: 0.0.1
+Date: 2026-02-17
+Author: Alfonso Cano
+Maintainer: Alfonso Cano <alfonso.cano@correo.buap.mx>
+Depends: rkward (>= 0.7.5)
+Suggests: xml2, dplyr, purrr, tibble
+Enhances: rkward
+Description: Applies variable labels and factor levels (responses) to
+        an existing data.frame by reading a DDI/XML file.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyLoad: yes
+URL: https://github.com/AlfCano/rk.ddi.import
+Authors@R: person(given="Alfonso", family="Cano",
+        email="alfonso.cano@correo.buap.mx", role=c("aut", "cre"))
