@@ -1,6 +1,6 @@
 # rk.ddi.import: DDI Metadata Importer for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.0.1-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.0.2-blue.svg)
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![RKWard](https://img.shields.io/badge/Platform-RKWard-green)
 [![R Linter](https://github.com/AlfCano/rk.ddi.import/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.ddi.import/actions/workflows/lintr.yml)
@@ -8,6 +8,10 @@
 **rk.ddi.import** is an RKWard plugin designed to streamline the workflow of processing raw survey data. It reads Data Documentation Initiative (DDI) compliant XML files—commonly distributed by statistical agencies like **INEGI (Mexico)**, **DANE (Colombia)**, and others—and automatically applies variable descriptions and value labels to your R data frames.
 
 Stop manually recoding `1 = "Yes"`, `2 = "No"` for hundreds of variables. Let the XML do the work.
+
+## 🚀 What's New in Version-0.0.2
+
+This version **fixes a naming bug**.
 
 ## 🚀 What's New in Version 0.0.1
 

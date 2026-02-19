@@ -30,7 +30,7 @@ function calculate(is_preview){
 	echo("  mode = \"" + radMode + "\"\n");
 	echo(")\n\n");
 	echo("# 2. Apply variable labels (Metadata)\n");
-	echo(saveResult + " <- apply_ddi_labels(\n");
+	echo("tagged_data <- apply_ddi_labels(\n");
 	echo("  df = data_tmp,\n");
 	echo("  xml_path = \"" + inpXmlFile + "\"\n");
 	echo(")\n\n");

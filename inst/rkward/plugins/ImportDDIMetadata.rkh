@@ -8,7 +8,7 @@
 		Import DDI Metadata
 	</title>
 	<summary>
-		This plugin allows you to import metadata (variable labels and value labels) from a DDI-compliant XML file
+		This plugin allows you to import metadata (variable labels and value labels) from a DDI-compliant XML file 
 	    and apply them to an existing R data frame. This is commonly used for census and survey data from institutions like INEGI or DANE.
 	</summary>
 	<usage>

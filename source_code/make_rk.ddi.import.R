@@ -17,7 +17,7 @@ local({
     ),
     about = list(
       desc = "Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file.",
-      version = "0.0.1",
+      version = "0.0.2",
       date = format(Sys.Date(), "%Y-%m-%d"),
       url = "https://github.com/AlfCano/rk.ddi.import",
       license = "GPL (>= 3)"
@@ -173,7 +173,7 @@ local({
 
   save_res <- rk.XML.saveobj(
     label = "Save result as",
-    initial = "tagged_data",
+    initial = "tagged_data", # Golden Rule #7 Target
     chk = TRUE,
     id.name = "save_result"
   )
@@ -216,7 +216,6 @@ local({
   # 5. JavaScript Generation
   # =========================================================================================
 
-  # JS Logic using rk.paste.JS and comma separation for safety
   js_calc <- rk.paste.JS(
     rk.JS.vars(inp_df, inp_xml, rad_mode, save_res),
 
@@ -232,7 +231,8 @@ local({
     echo(")\n\n"),
 
     echo("# 2. Apply variable labels (Metadata)\n"),
-    echo(save_res, " <- apply_ddi_labels(\n"),
+    # FIXED: Using hardcoded 'tagged_data' as defined in save_res initial=""
+    echo("tagged_data <- apply_ddi_labels(\n"),
     echo("  df = data_tmp,\n"),
     echo("  xml_path = \"", inp_xml, "\"\n"),
     echo(")\n\n"),
@@ -244,35 +244,30 @@ local({
   js_print <- rk.paste.JS(
     rk.JS.vars(save_res),
     echo("rk.header(\"DDI Import Results\")\n"),
+    # Printing the user-selected name is correct here
     echo("rk.print(paste(\"Created object:\", \"", save_res, "\"))\n"),
     echo("rk.results(head(", save_res, "))\n")
   )
 
   # =========================================================================================
-  # 6. Final Skeleton (Single Component Mode)
+  # 6. Final Skeleton
   # =========================================================================================
 
   rk.plugin.skeleton(
     about = about_info,
     path = ".",
-    # Define UI
     xml = list(dialog = full_dialog),
-    # Define Logic
     js = list(
       require = c("xml2", "dplyr", "purrr", "tibble"),
       calculate = js_calc,
       printout = js_print
     ),
-    # Define Help
     rkh = list(summary = rkh_summary, usage = rkh_usage, settings = rkh_settings),
-    # Define Menu placement
     pluginmap = list(
       name = "Import DDI Metadata",
       hierarchy = list("data", "Names and Labels")
     ),
-    # Define Dependencies
     dependencies = dependencies_node,
-    # Actions
     create = c("pmap", "xml", "js", "desc", "rkh"),
     overwrite = TRUE,
     load = TRUE

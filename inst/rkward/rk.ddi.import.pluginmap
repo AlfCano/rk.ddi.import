@@ -32,8 +32,8 @@
 		name="rk.ddi.import"
 		shortinfo="Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file."
 		longinfo="Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file."
-		version="0.0.1"
-		releasedate="2026-02-17"
+		version="0.0.2"
+		releasedate="2026-02-18"
 		url="https://github.com/AlfCano/rk.ddi.import"
 		license="GPL (&gt;= 3)"
 	>
