@@ -13,7 +13,7 @@
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
 	<dependencies
-		rkward_min_version="0.7.5"
+		R_min_version="3.5.0"
 	>
 		<package
 			name="xml2"
@@ -32,8 +32,8 @@
 		name="rk.ddi.import"
 		shortinfo="Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file."
 		longinfo="Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file."
-		version="0.0.2"
-		releasedate="2026-02-20"
+		version="0.0.3"
+		releasedate="2026-03-07"
 		url="https://github.com/AlfCano/rk.ddi.import"
 		license="GPL (&gt;= 3)"
 	>

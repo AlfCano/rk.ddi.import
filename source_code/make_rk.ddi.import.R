@@ -17,7 +17,7 @@ local({
     ),
     about = list(
       desc = "Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file.",
-      version = "0.0.2",
+      version = "0.0.3",
       date = format(Sys.Date(), "%Y-%m-%d"),
       url = "https://github.com/AlfCano/rk.ddi.import",
       license = "GPL (>= 3)"
@@ -26,7 +26,7 @@ local({
 
   # Dependencies check
   dependencies_node <- rk.XML.dependencies(
-    dependencies = list(rkward.min = "0.7.5"),
+    dependencies = list(R.min = "3.5.0"),
     package = list(
       c(name = "xml2"),
       c(name = "dplyr"),
