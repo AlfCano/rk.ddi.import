@@ -35,7 +35,7 @@ local({
   )
 
   # =========================================================================================
-  # 2. R Helper Functions (¡OPTIMIZADOS PARA RENDIMIENTO EXTREMO!)
+  # 2. R Helper Functions (¡CORREGIDOS LOS ESCAPES DE COMILLAS Y OPTIMIZADOS!)
   # =========================================================================================
   r_helpers_code <- '
     trim_ws <- function(x) { gsub("^\\\\s+|\\\\s+$", "", gsub("\\\\s+", " ", x)) }
@@ -55,7 +55,7 @@ local({
         return(candidatos[1])
       }
 
-      # OPTIMIZACIÓN 1: En lugar de analizar 300,000 filas, solo analizamos los valores únicos (ej. 1, 2, 3)
+      # OPTIMIZACIÓN 1: Solo analizamos los valores únicos, evitando evaluar miles de filas
       vals_chr <- as.character(unique(x[!is.na(x)]))
 
       puntajes <- vapply(candidatos, function(vk) {
@@ -67,54 +67,49 @@ local({
       candidatos[which.max(puntajes)]
     }
 
-    # OPTIMIZACIÓN 2: Una sola función maestra para no leer el XML gigante dos veces
+    # OPTIMIZACIÓN 2: Una sola función maestra
     apply_ddi_metadata <- function(df, xml_path, mode = c("character", "factor")) {
       mode <- match.arg(mode)
       doc <- xml2::read_xml(sub("^file:/+","", xml_path))
 
-      # OPTIMIZACIÓN 3: XPath de dos pasos (mucho más rápido que buscar en todo el documento)
-      dscr_node <- xml2::xml_find_first(doc, "//*[local-name()=\\'dataDscr\\']")
+      # OPTIMIZACIÓN 3: XPath de dos pasos (Corregido el error de comillas)
+      dscr_node <- xml2::xml_find_first(doc, "//*[local-name()=\'dataDscr\']")
       if (!is.na(dscr_node)) {
-          var_nodes <- xml2::xml_find_all(dscr_node, "./*[local-name()=\\'var\\']")
+          var_nodes <- xml2::xml_find_all(dscr_node, "./*[local-name()=\'var\']")
       } else {
-          var_nodes <- xml2::xml_find_all(doc, "//*[local-name()=\\'var\\']")
+          var_nodes <- xml2::xml_find_all(doc, "//*[local-name()=\'var\']")
       }
 
-      # Construir tabla de variables
       vars_tbl <- purrr::map_df(var_nodes, function(vnode) {
         vname <- xml2::xml_attr(vnode, "name")
-        if (is.na(vname) || vname == "") vname <- xml2::xml_text(xml2::xml_find_first(vnode, ".//*[local-name()=\\'name\\' or local-name()=\\'Name\\']"))
-        vlabel <- xml2::xml_text(xml2::xml_find_first(vnode, ".//*[local-name()=\\'labl\\' or local-name()=\\'Labl\\' or local-name()=\\'label\\' or local-name()=\\'Label\\']"))
+        if (is.na(vname) || vname == "") vname <- xml2::xml_text(xml2::xml_find_first(vnode, ".//*[local-name()=\'name\' or local-name()=\'Name\']"))
+        vlabel <- xml2::xml_text(xml2::xml_find_first(vnode, ".//*[local-name()=\'labl\' or local-name()=\'Labl\' or local-name()=\'label\' or local-name()=\'Label\']"))
         tibble::tibble(var = trim_ws(vname), var_label = trim_ws(vlabel))
       }) %>% dplyr::filter(var != "") %>% dplyr::distinct(var, .keep_all = TRUE)
 
-      # Construir tabla de niveles/factores
       val_labs <- purrr::map_df(var_nodes, function(vnode) {
         vname <- xml2::xml_attr(vnode, "name")
-        if (is.na(vname) || vname == "") vname <- xml2::xml_text(xml2::xml_find_first(vnode, ".//*[local-name()=\\'name\\' or local-name()=\\'Name\\']"))
+        if (is.na(vname) || vname == "") vname <- xml2::xml_text(xml2::xml_find_first(vnode, ".//*[local-name()=\'name\' or local-name()=\'Name\']"))
         vname <- trim_ws(vname)
-        cats <- xml2::xml_find_all(vnode, ".//*[local-name()=\\'catgry\\' or local-name()=\\'Catgry\\']")
+        cats <- xml2::xml_find_all(vnode, ".//*[local-name()=\'catgry\' or local-name()=\'Catgry\']")
         if (length(cats) == 0) return(tibble::tibble(var = character(), code = character(), label = character(), ord = integer()))
         purrr::map_df(seq_along(cats), function(i) {
-          code <- xml2::xml_text(xml2::xml_find_first(cats[[i]], ".//*[local-name()=\\'catValu\\' or local-name()=\\'CatValu\\']"))
-          lab  <- xml2::xml_text(xml2::xml_find_first(cats[[i]], ".//*[local-name()=\\'labl\\' or local-name()=\\'Labl\\' or local-name()=\\'label\\' or local-name()=\\'Label\\']"))
+          code <- xml2::xml_text(xml2::xml_find_first(cats[[i]], ".//*[local-name()=\'catValu\' or local-name()=\'CatValu\']"))
+          lab  <- xml2::xml_text(xml2::xml_find_first(cats[[i]], ".//*[local-name()=\'labl\' or local-name()=\'Labl\' or local-name()=\'label\' or local-name()=\'Label\']"))
           tibble::tibble(var = vname, code = trim_ws(code), label = trim_ws(lab), ord = i)
         })
       }) %>% dplyr::filter(var != "", code != "", label != "") %>% dplyr::arrange(var, ord) %>% dplyr::distinct(var, code, .keep_all = TRUE)
 
-      # Aplicar metadatos columna por columna
       for (col in names(df)) {
         var_key <- resolver_var_key(col, df[[col]], vars_tbl, val_labs)
         if (is.na(var_key)) next
 
-        # Inyectar Label (Descripción)
         desc <- vars_tbl$var_label[vars_tbl$var == var_key]
         if (length(desc) > 0 && !is.na(desc) && desc != "") {
           try(attr(df[[col]], "label") <- desc, silent=TRUE)
           if (exists("rk.set.label", mode = "function")) rk.set.label(df[[col]], desc)
         }
 
-        # Inyectar Factores (Responses)
         vl <- dplyr::filter(val_labs, var == var_key)
         if (nrow(vl) > 0) {
             codes_chr <- if (is.numeric(df[[col]]) || is.integer(df[[col]])) as.character(suppressWarnings(as.numeric(vl$code))) else as.character(vl$code)
