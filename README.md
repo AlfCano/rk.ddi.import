@@ -1,6 +1,6 @@
 # rk.ddi.import: DDI Metadata Importer for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.0.3-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.0.4-blue.svg)
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![RKWard](https://img.shields.io/badge/Platform-RKWard-green)
 [![R Linter](https://github.com/AlfCano/rk.ddi.import/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.ddi.import/actions/workflows/lintr.yml)
@@ -8,6 +8,13 @@
 **rk.ddi.import** is an RKWard plugin designed to streamline the workflow of processing raw survey data. It reads Data Documentation Initiative (DDI) compliant XML files—commonly distributed by statistical agencies like **INEGI (Mexico)**, **DANE (Colombia)**, and others—and automatically applies variable descriptions and value labels to your R data frames.
 
 Stop manually recoding `1 = "Yes"`, `2 = "No"` for hundreds of variables. Let the XML do the work.
+
+## 🚀 What's New in Version 0.0.4
+
+**Extreme Performance Optimization for Massive Datasets (Big Data Ready)**
+* **Lightning Fast Mapping:** Processing massive national surveys (like INEGI's ENUT with ~100,000 rows) used to crash the GUI or take forever. The internal engine was rewritten to evaluate only `unique()` values per column, dropping processing time to just a few seconds.
+* **Optimized XML Parsing:** The plugin now uses a two-step XPath search (`xml_find_first` -> `xml_find_all`) and caches the giant metadata dictionaries locally, preventing R from reading the heavy XML files twice.
+* **Syntax Bulletproofing:** Fixed underlying JavaScript escaping bugs (*backslash hell*) ensuring 100% stable R code generation regardless of the variable names.
 
 ## 🚀 What's New in Version-0.0.3
 
@@ -45,6 +52,9 @@ Imports the full question text or variable label.
 
 ### 4. Ecosystem Synergy
 *   Works perfectly alongside the **`rk.names.labels`** plugin to fix common case-sensitivity mismatches (e.g., converting lowercase CSV headers to uppercase to match the XML definitions) before importing the metadata.
+
+### 5. Big Data Performance
+*   **Highly Optimized Engine:** Thanks to vectorized matching and `dplyr` filtering, the plugin effortlessly handles gigantic datasets (90,000+ rows and hundreds of columns) using minimal RAM, avoiding the common freezes associated with GUI data editors.
 
 ### 🌍 Internationalization
 The interface is fully localized in:
@@ -86,9 +96,9 @@ Once installed, the tool is located under the **Data** menu (standard location f
 
 ---
 
-### 🇲🇽 Real-World Example: INEGI's ENOE (Mexico)
+### 🇲🇽 Real-World Example: INEGI's ENOE & ENUT (Mexico)
 
-A common issue when downloading open data from agencies like INEGI is that the CSV headers are often in **lowercase** (`est`, `mun`), while their DDI XML dictionaries define variables in **UPPERCASE** (`EST`, `MUN`). Since R is case-sensitive, a direct import will fail to match the variables. 
+A common issue when downloading massive open datasets from agencies like INEGI (such as the National Survey of Occupation and Employment - ENOE, or the National Time Use Survey - ENUT) is that the CSV headers are often in **lowercase**, while their DDI XML dictionaries define variables in **UPPERCASE**.
 
 Here is the bulletproof workflow using RKWard:
 
