@@ -132,17 +132,20 @@ This plugin relies on the following R packages:
 
 #### Troubleshooting: Errors installing `devtools` or missing binary dependencies (Windows)
 
-If you encounter errors mentioning "non-zero exit status", "namespace is already loaded", or requirements for compilation (compiling from source) when installing packages, it is likely because the R version bundled with RKWard is older than the current CRAN standard.
+If you encounter errors mentioning "non-zero exit status", "namespace is already loaded", or requirements for compilation (compiling from source) when installing packages, it is usually because the R version bundled with your current RKWard installation is older than the current CRAN standard.
 
-**Workaround:**
-Until a new, more recent version of R (current bundled version is 4.3.3) is packaged into the RKWard executable, these issues will persist. To fix this:
+**Recommended Solution: Update RKWard**
+Simply update your software to **RKWard 0.8.3 or newer**. This modern release comes bundled with **R 4.5.3**, which perfectly supports the latest pre-compiled CRAN binaries out of the box. This completely eliminates the need for `RTools` and manual compilation.
 
-1.  Download and install the latest version of R (e.g., 4.5.2 or newer) from [CRAN](https://cloud.r-project.org/).
+**Alternative Workaround (Custom R Version):**
+RKWard 0.8.3 is also fully compatible with newer releases like **R 4.6**. If you prefer to use a standalone, cutting-edge version of R instead of the bundled one:
+
+1.  Download and install your desired R version from [CRAN](https://cloud.r-project.org/).
 2.  Open RKWard and go to the **Settings** (or Preferences) menu.
 3.  Run the **"Installation Checker"**.
 4.  Point RKWard to the newly installed R version.
 
-This "two-step" setup (similar to how RStudio operates) ensures you have access to the latest pre-compiled binaries, avoiding the need for RTools and manual compilation.
+This "two-step" setup (similar to how RStudio operates) ensures you always have access to the exact R version you need for your research.
 
 ## ✍️ Author & License
 
