@@ -17,7 +17,7 @@ local({
     ),
     about = list(
       desc = "Applies variable labels and factor levels (responses) to an existing data.frame by reading a DDI/XML file. Highly optimized for massive datasets.",
-      version = "0.0.4",
+      version = "0.0.5",
       date = format(Sys.Date(), "%Y-%m-%d"),
       url = "https://github.com/AlfCano/rk.ddi.import",
       license = "GPL (>= 3)"
@@ -35,7 +35,7 @@ local({
   )
 
   # =========================================================================================
-  # 2. R Helper Functions (¡CORREGIDOS LOS ESCAPES DE COMILLAS Y OPTIMIZADOS!)
+  # 2. R Helper Functions (¡CORREGIDO EL ORDEN PARA PRESERVAR ETIQUETAS!)
   # =========================================================================================
   r_helpers_code <- '
     trim_ws <- function(x) { gsub("^\\\\s+|\\\\s+$", "", gsub("\\\\s+", " ", x)) }
@@ -104,12 +104,7 @@ local({
         var_key <- resolver_var_key(col, df[[col]], vars_tbl, val_labs)
         if (is.na(var_key)) next
 
-        desc <- vars_tbl$var_label[vars_tbl$var == var_key]
-        if (length(desc) > 0 && !is.na(desc) && desc != "") {
-          try(attr(df[[col]], "label") <- desc, silent=TRUE)
-          if (exists("rk.set.label", mode = "function")) rk.set.label(df[[col]], desc)
-        }
-
+        # PASO 1: APLICAR NIVELES DE FACTOR O TEXTO PRIMERO (para no destruir las etiquetas)
         vl <- dplyr::filter(val_labs, var == var_key)
         if (nrow(vl) > 0) {
             codes_chr <- if (is.numeric(df[[col]]) || is.integer(df[[col]])) as.character(suppressWarnings(as.numeric(vl$code))) else as.character(vl$code)
@@ -124,6 +119,14 @@ local({
               df[[col]] <- factor(mapped, levels = levels_vec, ordered = FALSE)
             }
         }
+
+        # PASO 2: APLICAR ETIQUETA DE VARIABLE AL FINAL (ahora sí se conservará)
+        desc <- vars_tbl$var_label[vars_tbl$var == var_key]
+        if (length(desc) > 0 && !is.na(desc) && desc != "") {
+          try(attr(df[[col]], "label") <- desc, silent=TRUE)
+          if (exists("rk.set.label", mode = "function")) rk.set.label(df[[col]], desc)
+        }
+
       }
       return(df)
     }
@@ -164,7 +167,8 @@ local({
     rk.JS.vars(save_res),
     echo("rk.header(\"DDI Import Results\")\n"),
     echo("rk.print(paste(\"Created object:\", \"", save_res, "\"))\n"),
-    echo("rk.results(head(", save_res, "))\n")
+    # FIXED: Hardcoded 'tagged_data' based on user fix
+    echo("rk.results(head(tagged_data))\n")
   )
 
   # =========================================================================================

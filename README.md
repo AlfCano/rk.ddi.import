@@ -1,6 +1,6 @@
 # rk.ddi.import: DDI Metadata Importer for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.0.4-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.0.5-blue.svg)
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![RKWard](https://img.shields.io/badge/Platform-RKWard-green)
 [![R Linter](https://github.com/AlfCano/rk.ddi.import/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.ddi.import/actions/workflows/lintr.yml)
@@ -8,6 +8,12 @@
 **rk.ddi.import** is an RKWard plugin designed to streamline the workflow of processing raw survey data. It reads Data Documentation Initiative (DDI) compliant XML files—commonly distributed by statistical agencies like **INEGI (Mexico)**, **DANE (Colombia)**, and others—and automatically applies variable descriptions and value labels to your R data frames.
 
 Stop manually recoding `1 = "Yes"`, `2 = "No"` for hundreds of variables. Let the XML do the work.
+
+## 🚀 What's New in Version 0.0.5
+
+**Crucial Bug Fixes for Metadata Preservation**
+*   **Persistent Factor Labels:** Fixed a native R quirk where converting a column into a `factor` would silently strip away its variable label (`attr(..., "label")`). The internal engine now applies factor levels *before* injecting the variable description, ensuring your categorical data retains 100% of its official metadata for downstream tables and plots.
+*   **Output Preview Fix:** Resolved a bug in the RKWard output window where the `head()` data preview would fail to display the newly tagged dataset if the user changed the default output name.
 
 ## 🚀 What's New in Version 0.0.4
 
